@@ -11,9 +11,11 @@ $client = new LoLClient('mfgsk', 'mafiga182', 'BR' );
 $summoner = $client->getSummonerByName("SummonerName");
 $publicSummonerData = $client->getAllPublicSummonerDataByAccount($summoner->getAcctId());
 
-$names = $client->getSummonerNames(array($summoner->getAcctId(), 123456));
+$names = $client->getSummonerNames(array($summoner->getAcctId()));
 
 $games = $client->getRecentGames($summoner->getAcctId());
+
+print_r($games);
 
 $stats = $client->getPlayerStatsByAccountId($summoner->getAcctId());
 
