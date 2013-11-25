@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(-1);
+
 require_once 'vendor/autoload.php';
 
 use zlokomatic\phpLoL\LoLClient;
@@ -16,6 +18,8 @@ $names = $client->getSummonerNames(array($summoner->getAcctId()));
 $games = $client->getRecentGames($summoner->getAcctId());
 
 print_r($games);
+
+
 
 $stats = $client->getPlayerStatsByAccountId($summoner->getAcctId());
 
