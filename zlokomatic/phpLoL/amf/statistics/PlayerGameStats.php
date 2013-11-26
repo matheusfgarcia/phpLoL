@@ -737,6 +737,10 @@ class PlayerGameStats extends LoLAMFBase {
 	{
 		$this->levelUp = $levelUp;
 	}
+	public function getLeveledUp($levelUp)
+	{
+		return $this->levelUp;
+	}
 
 
 } 
