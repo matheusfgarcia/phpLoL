@@ -41,9 +41,9 @@ $names = $client->getSummonerNames(array($summoner->getAcctId()));
 
 $games = $client->getRecentGames($summoner->getAcctId());
 
-print_r($games);
 
 $stats = $client->getPlayerStatsByAccountId($summoner->getAcctId());
+print_r($stats);
 
 $aggStats = $client->getAggregatedStats($summoner->getAcctId(), 'CLASSIC', 3);
 
@@ -62,5 +62,4 @@ echo $profiler->name;
 
 */
 
-print_r($stats);
 
