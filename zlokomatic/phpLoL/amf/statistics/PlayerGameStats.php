@@ -56,6 +56,7 @@ class PlayerGameStats extends LoLAMFBase {
     protected $rating;
     protected $championId;
     protected $levelUp;
+    protected $voterRating;
 
     /**
      * @param mixed $fellowPlayers
@@ -737,9 +738,20 @@ class PlayerGameStats extends LoLAMFBase {
 	{
 		$this->levelUp = $levelUp;
 	}
+	
 	public function getLeveledUp($levelUp)
 	{
 		return $this->levelUp;
+	}
+	
+	public function setVoterRating($voterRating)
+	{
+		$this->voterRating = $voterRating;
+	}
+	
+	public function getVoterRating($voterRating)
+	{
+		return $this->voterRating;
 	}
 
 
