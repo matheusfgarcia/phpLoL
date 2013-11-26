@@ -55,6 +55,7 @@ class PlayerGameStats extends LoLAMFBase {
     protected $predictedWinPct;
     protected $rating;
     protected $championId;
+    protected $levelUp;
 
     /**
      * @param mixed $fellowPlayers
@@ -731,6 +732,11 @@ class PlayerGameStats extends LoLAMFBase {
     {
         return $this->boostIpEarned;
     }
+	
+	public function setLeveledUp($levelUp)
+	{
+		$this->levelUp = $levelUp;
+	}
 
 
 } 
