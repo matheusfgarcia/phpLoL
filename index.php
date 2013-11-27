@@ -49,8 +49,8 @@ foreach($publicSummonerData["spellBook"]["bookPages"] as &$bookPages){
 		$slot["rune"]["runeType" ] =  $slot["rune"]["runeType"]->toArray();
 		foreach($slot["rune"]["itemEffects"] as &$rune){
 			$rune = $rune->toArray();
-			$rune["effect"] = $rune["effect"]=>toArray();
-			$rune["effect"]["runeType"] = $rune["effect"]["runeType"]=>toArray();
+			$rune["effect"] = $rune["effect"]->toArray();
+			$rune["effect"]["runeType"] = $rune["effect"]["runeType"]->toArray();
 		
 		
 		}
