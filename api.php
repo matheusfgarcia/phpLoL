@@ -39,6 +39,8 @@ class API{
 
 	public function __construct($userName){
 	
+		echo $userName;
+	
 		$this->userName = $userName;
 		  
 		$this->client = new LoLClient('mfgsk', 'mafiga182', 'BR');		
