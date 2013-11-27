@@ -1,6 +1,6 @@
 <?php 
 
-error_reporting(0);
+error_reporting(-1);
 
 class API{
 
@@ -26,6 +26,8 @@ class API{
 		$statistics 		= array();
 		$result 			= array();
 		$i					=0;
+		
+		print_r($value);
 		
 		foreach(iterator_to_array($value["gameStatistics"]) as $array){
 			//print_r($array);
