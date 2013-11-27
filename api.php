@@ -16,7 +16,7 @@ class API{
 			
 	}
 
-	function getRecentGames($value){
+	function getRecentGames($data){
 	
 		include_once("champions.php");
 		include_once("items.php");
@@ -27,6 +27,7 @@ class API{
 		$result 			= array();
 		$i					=0;
 		
+		$value = $data->toArray();
 		print_r($value);
 		
 		foreach(iterator_to_array($value["gameStatistics"]) as $array){
