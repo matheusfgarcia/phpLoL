@@ -1,9 +1,5 @@
 <?php
 
-include_once("api.php");
-
-$api = new API();
-
 date_default_timezone_set("America/Los_Angeles");
 
 spl_autoload_register(
@@ -28,6 +24,8 @@ spl_autoload_register(
 require_once 'vendor/autoload.php';
 
 use zlokomatic\phpLoL\LoLClient;
+
+$api = new api();
 
 //use zlokomatic\phpLoL\examples\LOLProfiler;
 
