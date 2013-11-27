@@ -1,7 +1,7 @@
 <?php
 
 
-include_once(dirname(__FILE__) ."/lib/lolme/api.php");
+include_once(dirname(__FILE__) ."/api.php");
 
 $api = new API($_GET['user']);
 
