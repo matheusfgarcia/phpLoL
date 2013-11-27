@@ -35,6 +35,9 @@ $summonerName = $_GET['user'];
 
 $summoner = $client->getSummonerByName($summonerName);
 
+/////////////////////////////////////////////////////////////
+//////////////////Public Summoner Data///////////////////////
+
 $publicSummonerData = $client->getAllPublicSummonerDataByAccount($summoner->getAcctId());
 
 $publicSummonerData = $publicSummonerData->toArray();
@@ -66,10 +69,13 @@ $publicSummonerData["summoner"] = $publicSummonerData["summoner"]->toArray();
 $publicSummonerData["summonerLevelAndPoints"] = $publicSummonerData["summonerLevelAndPoints"]->toArray();
 $publicSummonerData["summonerLevel"] = $publicSummonerData["summonerLevel"]->toArray();
 
-
-print_r($publicSummonerData);
+/////////////////////////////////////////////////////////////
 
 $names = $client->getSummonerNames(array($summoner->getAcctId()));
+
+
+/////////////////////////////////////////////////////////////
+//////////////////Recent Games Data//////////////////////////
 
 $games = $client->getRecentGames($summoner->getAcctId());
 
@@ -101,6 +107,9 @@ foreach($games["gameStatistics"] as &$stat){
 	);
 }
 
+/////////////////////////////////////////////////////////////
+
+
 //$content = $api->getRecentGames($games);
 
 $stats = $client->getPlayerStatsByAccountId($summoner->getAcctId());
@@ -120,7 +129,8 @@ $masteries = $client->getMasteryBook($summoner->getSummonerId());
 <script>
 	window.lol = {};
 
-	lol.games = <?php echo json_encode($games); ?>
+	lol.recentGames = <?php echo json_encode($games); ?>
+	lol.publicData = <?php echo json_encode($publicSummonerData); ?>
 
 
 </script>
