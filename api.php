@@ -30,6 +30,8 @@ class API{
 		$value = $data->toArray();
 		print_r($value);
 		
+		$client = new 
+		
 		foreach($value["gameStatistics"] as $array){
 		
 			$array = $array->toArray();
@@ -52,7 +54,7 @@ class API{
 									
 				array_push($result[$i]["fellowPlayers"][$data["teamId"]],array(
 					"summonerId" 	=> $data["summonerId"],
-					"summonerName"	=> utf8_decode($this->client->getSummonerName( $data["summonerId"])),
+					//"summonerName"	=> utf8_decode($this->client->getSummonerName( $data["summonerId"])),
 					"championId" 	=> $data-["championId"],
 					"championImage" => "http://lkimg.zamimg.com/shared/riot/images/champions/{$data["championId"]}_32.png",
 					"champion"		=> $this->champions->getChampById($data["championId"])
@@ -109,7 +111,7 @@ class API{
 			
 			array_push($result[$i]["fellowPlayers"][$array["teamId"]],array(
 				"summonerId" 	=> $array["summonerId"],
-				"summonerName" 	=> utf8_decode($this->client->getSummonerName( $array["summonerId"])),
+				//"summonerName" 	=> utf8_decode($this->client->getSummonerName( $array["summonerId"])),
 				"championId" 	=> $array["championId"],
 				"championImage" => "http://lkimg.zamimg.com/shared/riot/images/champions/{$array["championId"]}_32.png",
 				"champion"		=> $this->champions->getChampById($array["championId"]),
