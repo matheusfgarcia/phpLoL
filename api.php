@@ -29,9 +29,7 @@ class API{
 		
 		$value = $data->toArray();
 		print_r($value);
-		
-		$client = new 
-		
+				
 		foreach($value["gameStatistics"] as $array){
 		
 			$array = $array->toArray();
