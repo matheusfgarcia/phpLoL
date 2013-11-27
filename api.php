@@ -12,10 +12,6 @@ class API{
 	var $user;
 	var $userName;
 
-	public function __construct(){
-			
-	}
-
 	function getRecentGames($data){
 	
 		include_once("champions.php");
@@ -28,7 +24,6 @@ class API{
 		$i					=0;
 		
 		$value = $data->toArray();
-		print_r($value);
 				
 		foreach($value["gameStatistics"] as $array){
 		
