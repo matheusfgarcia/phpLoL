@@ -1,5 +1,16 @@
 <?php
 
+
+include_once(dirname(__FILE__) ."/lib/lolme/api.php");
+
+$api = new API($_GET['user']);
+
+print_r($api->getRecentGames());
+
+
+
+die();
+
 date_default_timezone_set("America/Los_Angeles");
 
 spl_autoload_register(
