@@ -47,6 +47,8 @@ class API{
 	}
 
 	function getRecentGames(){
+	
+		echo "oi";
 		
 		include_once("champions.php");
 		include_once("items.php");
