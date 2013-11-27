@@ -1,31 +1,6 @@
-<?php
-error_reporting(-1);
+<?php 
 
-date_default_timezone_set("America/Los_Angeles");
-
-spl_autoload_register(
-    function($className)
-    {
-        $className = str_replace("_", "\\", $className);
-        $className = ltrim($className, '\\');
-        $fileName = '';
-        $namespace = '';
-        if ($lastNsPos = strripos($className, '\\'))
-        {
-            $namespace = substr($className, 0, $lastNsPos);
-            $className = substr($className, $lastNsPos + 1);
-            $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-        }
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-        require $fileName;
-    }
-);
-
-require_once 'vendor/autoload.php';
-
-use zlokomatic\phpLoL\LoLClient;
-
+error_reporting(0);
 
 class API{
 
@@ -37,21 +12,12 @@ class API{
 	var $user;
 	var $userName;
 
-	public function __construct($userName){
-	
-		echo $userName;
-	
-		$this->userName = $userName;
-		  
-		$this->client = new LoLClient('mfgsk', 'mafiga182', 'BR');		
-		$this->user = $this->client->getSummonerByName($userName);
-		
+	public function __construct(){
+			
 	}
 
-	function getRecentGames(){
+	function getRecentGames($value){
 	
-		echo "oi";
-		
 		include_once("champions.php");
 		include_once("items.php");
 		
@@ -60,8 +26,6 @@ class API{
 		$statistics 		= array();
 		$result 			= array();
 		$i					=0;
-		
-		$value = $this->client->getRecentGames($this->user["acctId"]);
 		
 		foreach(iterator_to_array($value["gameStatistics"]) as $array){
 			//print_r($array);
@@ -145,49 +109,164 @@ class API{
 			));
 				
 			$i++;
-
+	
 		}
 		
-		uasort($result, array($this,'cmp'));
+		uasort($result, array($this,'cmp'));		
 		return $result;
 	}
+	
+	function getAggregatedStats(){
+		print_r($this->client->getAggregatedStats( intval($this->user["acctId"]), 'CLASSIC', 3));
+	}
+	
+	function retrieveInProgressSpectatorGameInfo(){
+			
+		include_once("champions.php");
+		
+		$this->champions 	= new Champions();
+	
+		$value = $this->client->retrieveInProgressSpectatorGameInfo( $this->userName);
+		
+		
+		$teamOne = array();
+		$teamTwo = array();
+		$champs  = array();
+		$banneds = array();
+		
+		print_r($value["game"]->amfData); 	
+			
+		// TEAM ONE
+		foreach($value["game"]->amfData["teamOne"] as $teamOneArray){
+		
+			array_push($teamOne,array(
+				"summonerName"			=> $teamOneArray->amfData["summonerName"],
+				"pickTurn"				=> $teamOneArray->amfData["pickTurn"],
+				"summonerInternalName"	=> $teamOneArray->amfData["summonerInternalName"],
+				"profileIconId"			=> $teamOneArray->amfData["profileIconId"],
+				"lastSelectedSkinIndex"	=> $teamOneArray->amfData["lastSelectedSkinIndex"]
+			));
+			
+		}
+		foreach($value["game"]->amfData["teamTwo"] as $teamTwoArray){
+				
+			array_push($teamTwo,array(
+				"summonerName"			=> $teamTwoArray->amfData["summonerName"],
+				"pickTurn"				=> $teamTwoArray->amfData["pickTurn"],
+				"summonerInternalName"	=> $teamTwoArray->amfData["summonerInternalName"],
+				"profileIconId"			=> $teamTwoArray->amfData["profileIconId"],
+				"lastSelectedSkinIndex"	=> $teamTwoArray->amfData["lastSelectedSkinIndex"]
+				
+			));
+			
+		}
+		
+		foreach($value["game"]->amfData["playerChampionSelections"] as $champSelection){
+				
+			array_push($champs,array(
+				"spell2Id"				=> $champSelection->amfData["spell2Id"],
+				"spell1Id"				=> $champSelection->amfData["spell1Id"],
+				"summonerInternalName"	=> $champSelection->amfData["summonerInternalName"],
+				"selectedSkinIndex"		=> $champSelection->amfData["selectedSkinIndex"],
+				"championId"			=> $champSelection->amfData["championId"],
+				"champion"				=> $this->champions->getChampById($champSelection->amfData["championId"]),
+				"championImage"			=> "http://lkimg.zamimg.com/shared/riot/images/champions/{$champSelection->amfData["championId"]}_32.png"
+				
+			));
+			
+		}
+		
+		foreach($teamOne as $key=>$t1){
+			foreach($champs as $ch){
+				if($t1["summonerInternalName"] == $ch["summonerInternalName"]){
+					foreach($ch as $k=>$c){
+						$teamOne[$key][$k] = $c;
+					}
+					$find = 1;
+					break;
+				}
+			}
+		}
+			
+		foreach($teamTwo as $key=>$t1){
+			foreach($champs as $ch){
+				if($t1["summonerInternalName"] == $ch["summonerInternalName"]){
+					foreach($ch as $k=>$c){
+						$teamTwo[$key][$k] = $c;
+					}
+					$find = 1;
+					break;
+				}
+			}			
+		}
+			
+		foreach($value["game"]->amfData["bannedChampions"] as $banned){
+		
+			if(!isset($banneds[$banned->amfData["teamId"]]))
+				$banneds[$banned->amfData["teamId"]] = array();
+				
+			array_push($banneds[$banned->amfData["teamId"]],array(
+				"pickTurn"				=> $banned->amfData["pickTurn"],
+				"championId"			=> $banned->amfData["championId"],
+				"champion"				=> $this->champions->getChampById($banned->amfData["championId"]),
+				"championImage"			=> "http://lkimg.zamimg.com/shared/riot/images/champions/{$banned->amfData["championId"]}_32.png"
+			));
+		}
+			
+			print_r($teamOne);
+			print_r($teamTwo);
+			print_r($banneds);
+			
+		
+	}
+	
+	function cmp($a, $b) {
+		if ($a['createDate'] == $b['createDate']) {
+			return 0;
+		}
+		return ($a['createDate'] < $b['createDate']) ? 1 : -1;
+	}
+	
+	function getSpell($id){
+	
+		if(!isset($spell[$id])){
+				
+			$ch = curl_init(); 
+			curl_setopt($ch, CURLOPT_URL, "http://www.lolking.net/service/tooltips/spell?ids={$id}"); 
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);	
+			$data = curl_exec($ch); 
+			$error_no = curl_errno($ch);
+			curl_close($ch); 
+			
+			
+			$data = json_decode($data);
+			
+			$spell[$id] = $data->data;
+			$spell[$id]->$id->image = "http://lkimg.zamimg.com/images/spells/{$id}.png";
+		}
+		return $spell[$id];
+	}
+	
+	function compare_dates($time){
+		
+		$time = time() - $time; // to get the time since that moment
 
+		$tokens = array (
+			31536000 => 'year',
+			2592000 => 'month',
+			604800 => 'week',
+			86400 => 'day',
+			3600 => 'hour',
+			60 => 'minute',
+			1 => 'second'
+		);
+
+		foreach ($tokens as $unit => $text) {
+			if ($time < $unit) continue;
+			$numberOfUnits = floor($time / $unit);
+			return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+		}
+
+    } 
 }
-die();
-//use zlokomatic\phpLoL\examples\LOLProfiler;
-
-$client = new LoLClient('mfgsk', 'mafiga182', 'BR' );
-
-$summonerName = $_GET['user'];
-
-$summoner = $client->getSummonerByName($summonerName);
-
-$publicSummonerData = $client->getAllPublicSummonerDataByAccount($summoner->getAcctId());
-
-$names = $client->getSummonerNames(array($summoner->getAcctId()));
-
-$games = $client->getRecentGames($summoner->getAcctId());
-
-print_r($games);
-
-$stats = $client->getPlayerStatsByAccountId($summoner->getAcctId());
-
-$aggStats = $client->getAggregatedStats($summoner->getAcctId(), 'CLASSIC', 3);
-
-$leagues = $client->getAllLeaguesForPlayer($summoner->getSummonerId());
-
-// 20-10
-$masteries = $client->getMasteryBook($summoner->getSummonerId());
-
-/*
-
-$profiler = new LOLProfiler('Username','Password','NA');
-
-$profiler->searchSummoner('SummonerName');
-
-echo $profiler->name;
-
-*/
-
-print_r($stats);
-
