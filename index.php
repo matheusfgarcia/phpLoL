@@ -316,16 +316,16 @@ foreach($content as $cont){
 				echo "<div class=\"team100\" style=\"float:left\">";
 					foreach($cont["fellowPlayers"][100] as $player){
 					
-						$player["summonerName"] =  $client->getSummonerNames(array($player["summonerId"]));
+						//$player["summonerName"] =  $client->getSummonerNames(array($player["summonerId"]));
 						
 					
-						echo "<a href=\"http://lolme.matheusgarcia.com/?user={$player["summonerName"][0]}\" class=\"fellowPlayerStat\">";
+					//	echo "<a href=\"http://lolme.matheusgarcia.com/?user={$player["summonerName"][0]}\" class=\"fellowPlayerStat\">";
 							echo "<div>";
 									echo "<div class=\"championImage\" style=\"float:left\">";
 										echo "<img src=\"{$player["championImage"]}\">";
 									echo "</div>";
 									echo "<div class=\"userName\">";
-										echo "<span> {$player["summonerName"][0]} </span>";
+										//echo "<span> {$player["summonerName"][0]} </span>";
 									echo "</div>";
 							echo "</div>";
 						echo "</a>";
@@ -337,15 +337,15 @@ foreach($content as $cont){
 					foreach($cont["fellowPlayers"][200] as $player){
 						
 						
-						$player["summonerName"] =  $client->getSummonerNames(array($player["summonerId"]));
+						//$player["summonerName"] =  $client->getSummonerNames(array($player["summonerId"]));
 					
-						echo "<a href=\"http://lolme.matheusgarcia.com/?user={$player["summonerName"][0]}\" class=\"fellowPlayerStat\">";
+						//echo "<a href=\"http://lolme.matheusgarcia.com/?user={$player["summonerName"][0]}\" class=\"fellowPlayerStat\">";
 							echo "<div>";
 									echo "<div class=\"championImage\" style=\"float:left\">";
 										echo "<img src=\"{$player["championImage"]}\">";
 									echo "</div>";
 									echo "<div class=\"userName\">";
-										echo "<span> {$player["summonerName"][0]} </span>";
+										//echo "<span> {$player["summonerName"][0]} </span>";
 									echo "</div>";
 							echo "</div>";
 						echo "</a>";
