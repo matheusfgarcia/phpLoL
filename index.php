@@ -317,6 +317,8 @@ foreach($content as $cont){
 					foreach($cont["fellowPlayers"][100] as $player){
 					
 						$player["summonerName"] =  $client->getSummonerNames(array($player["summonerId"]));
+						
+						print_r($player["summonerName"]);
 					
 						echo "<a href=\"http://lolme.matheusgarcia.com/?user={$player["summonerName"]}\" class=\"fellowPlayerStat\">";
 							echo "<div>";
