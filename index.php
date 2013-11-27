@@ -1,15 +1,9 @@
 <?php
 
+include_once("api.php");
 
-include_once(dirname(__FILE__) ."/api.php");
+$api = new API();
 
-$api = new API($_GET['user']);
-
-print_r($api->getRecentGames());
-
-
-
-die();
 date_default_timezone_set("America/Los_Angeles");
 
 spl_autoload_register(
@@ -49,7 +43,8 @@ $names = $client->getSummonerNames(array($summoner->getAcctId()));
 
 $games = $client->getRecentGames($summoner->getAcctId());
 
-print_r($games);
+// print_r($games);
+print_r($api->getRecentGames($games));
 
 $stats = $client->getPlayerStatsByAccountId($summoner->getAcctId());
 
