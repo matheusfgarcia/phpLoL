@@ -41,8 +41,6 @@ class API{
 	
 		$this->userName = $userName;
 		  
-		include_once(dirname(__FILE__) ."/../lol/LoLClient.php");
-
 		$this->client = new LoLClient('mfgsk', 'mafiga182', 'BR');		
 		$this->user = $this->client->getSummonerByName($userName);
 		
