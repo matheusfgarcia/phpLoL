@@ -31,34 +31,39 @@ class API{
 		print_r($value);
 		
 		foreach(iterator_to_array($value["gameStatistics"]) as $array){
+		
+			$array = $array->toArray();
 			//print_r($array);
 			//$result[$i]["champion"] = $array->amfData["skinName"];
-			$result[$i]["gameMode"] 	= $array->amfData["gameMode"];
-			$result[$i]["subType"] 		= $array->amfData["subType"];
-			$result[$i]["createDate"] 	= $array->amfData["createDate"];
-			$result[$i]["championId"] 	= $array->amfData["championId"];
-			$result[$i]["championImage"]= "http://lkimg.zamimg.com/shared/riot/images/champions/{$array->amfData["championId"]}_92.png";
-			$result[$i]["champion"] 	= $this->champions->getChampById($array->amfData["championId"]);
-			$result[$i]["spell1"] 		= $array->amfData["spell1"];
-			$result[$i]["spell2"] 		= $array->amfData["spell2"];
+			$result[$i]["gameMode"] 	= $array["gameMode"];
+			$result[$i]["subType"] 		= $array["subType"];
+			$result[$i]["createDate"] 	= $array["createDate"];
+			$result[$i]["championId"] 	= $array["championId"];
+			$result[$i]["championImage"]= "http://lkimg.zamimg.com/shared/riot/images/champions/{$array["championId"]}_92.png";
+			$result[$i]["champion"] 	= $this->champions->getChampById($array["championId"]);
+			$result[$i]["spell1"] 		= $array["spell1"];
+			$result[$i]["spell2"] 		= $array["spell2"];
 				
-			foreach($array->amfData["fellowPlayers"]->data as $data){
+			foreach($array["fellowPlayers"] as $data){
 			
-				if(!isset($result[$i]["fellowPlayers"][$data->amfData["teamId"]]) OR !is_array($result[$i]["fellowPlayers"][$data->amfData["teamId"]]))
-					$result[$i]["fellowPlayers"][$data->amfData["teamId"]] = array();
+				$data = $data->toArray();
+				if(!isset($result[$i]["fellowPlayers"][$data["teamId"]]) OR !is_array($result[$i]["fellowPlayers"][$data["teamId"]]))
+					$result[$i]["fellowPlayers"][$data["teamId"]] = array();
 									
-				array_push($result[$i]["fellowPlayers"][$data->amfData["teamId"]],array(
-					"summonerId" 	=> $data->amfData["summonerId"],
-					"summonerName"	=> utf8_decode($this->client->getSummonerName( $data->amfData["summonerId"])),
-					"championId" 	=> $data->amfData["championId"],
-					"championImage" => "http://lkimg.zamimg.com/shared/riot/images/champions/{$data->amfData["championId"]}_32.png",
-					"champion"		=> $this->champions->getChampById($data->amfData["championId"])
+				array_push($result[$i]["fellowPlayers"][$data["teamId"]],array(
+					"summonerId" 	=> $data-["summonerId"],
+					"summonerName"	=> utf8_decode($this->client->getSummonerName( $data["summonerId"])),
+					"championId" 	=> $data-["championId"],
+					"championImage" => "http://lkimg.zamimg.com/shared/riot/images/champions/{$data["championId"]}_32.png",
+					"champion"		=> $this->champions->getChampById($data["championId"])
 				));
 			
 			}
 			
-			foreach($array->amfData["statistics"]->data as $data){
-				$statistics[$data->amfData["statType"]] = $data->amfData["value"];
+			foreach($array["statistics"] as $data){
+				
+				$data = $data->toArray();
+				$statistics[$data["statType"]] = $data["value"];
 			
 			}
 			
@@ -99,15 +104,15 @@ class API{
 					unset($statistics[$key]);
 			}
 			
-			if(!isset($result[$i]["fellowPlayers"][$array->amfData["teamId"]]))
-				$result[$i]["fellowPlayers"][$array->amfData["teamId"]] = array();
+			if(!isset($result[$i]["fellowPlayers"][$array["teamId"]]))
+				$result[$i]["fellowPlayers"][$array["teamId"]] = array();
 			
-			array_push($result[$i]["fellowPlayers"][$array->amfData["teamId"]],array(
-				"summonerId" 	=> $array->amfData["summonerId"],
-				"summonerName" 	=> utf8_decode($this->client->getSummonerName( $array->amfData["summonerId"])),
-				"championId" 	=> $array->amfData["championId"],
-				"championImage" => "http://lkimg.zamimg.com/shared/riot/images/champions/{$array->amfData["championId"]}_32.png",
-				"champion"		=> $this->champions->getChampById($array->amfData["championId"]),
+			array_push($result[$i]["fellowPlayers"][$array["teamId"]],array(
+				"summonerId" 	=> $array["summonerId"],
+				"summonerName" 	=> utf8_decode($this->client->getSummonerName( $array["summonerId"])),
+				"championId" 	=> $array["championId"],
+				"championImage" => "http://lkimg.zamimg.com/shared/riot/images/champions/{$array["championId"]}_32.png",
+				"champion"		=> $this->champions->getChampById($array["championId"]),
 				"statistics" 	=> $statistics
 			));
 				
