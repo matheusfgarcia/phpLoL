@@ -47,10 +47,24 @@ foreach($publicSummonerData["spellBook"]["bookPages"] as &$bookPages){
 		$slot["runeSlot"]["runeType" ] =  $slot["runeSlot"]["runeType" ]->toArray();
 		$slot["rune"] = $slot["rune"]->toArray();
 		$slot["rune"]["runeType" ] =  $slot["rune"]["runeType"]->toArray();
+		foreach($slot["rune"]["itemEffects"] as &$rune){
+			$rune = $rune->toArray();
+			$rune["effect"] = $rune["effect"]=>toArray();
+			$rune["effect"]["runeType"] = $rune["effect"]["runeType"]=>toArray();
+		
+		
+		}
 	}
 
 }
 $publicSummonerData["summonerDefaultSpells"] = $publicSummonerData["summonerDefaultSpells"]->toArray();
+foreach($publicSummonerData["summonerDefaultSpells"]["summonerDefaultSpellMap"] as &$map){
+	$map = $map->toArray();
+}
+$publicSummonerData["summonerTalentsAndPoints"] = $publicSummonerData["summonerTalentsAndPoints"]->toArray();
+$publicSummonerData["summoner"] = $publicSummonerData["summoner"]->toArray();
+$publicSummonerData["summonerLevelAndPoints"] = $publicSummonerData["summonerLevelAndPoints"]->toArray();
+$publicSummonerData["summonerLevel"] = $publicSummonerData["summonerLevel"]->toArray();
 
 
 print_r($publicSummonerData);
