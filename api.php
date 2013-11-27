@@ -51,7 +51,7 @@ class API{
 					$result[$i]["fellowPlayers"][$data["teamId"]] = array();
 									
 				array_push($result[$i]["fellowPlayers"][$data["teamId"]],array(
-					"summonerId" 	=> $data-["summonerId"],
+					"summonerId" 	=> $data["summonerId"],
 					"summonerName"	=> utf8_decode($this->client->getSummonerName( $data["summonerId"])),
 					"championId" 	=> $data-["championId"],
 					"championImage" => "http://lkimg.zamimg.com/shared/riot/images/champions/{$data["championId"]}_32.png",
