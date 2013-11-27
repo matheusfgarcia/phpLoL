@@ -37,12 +37,57 @@ $summoner = $client->getSummonerByName($summonerName);
 
 $publicSummonerData = $client->getAllPublicSummonerDataByAccount($summoner->getAcctId());
 
+$publicSummonerData = $publicSummonerData->toArray();
+$publicSummonerData["spellBook"] = $publicSummonerData["spellBook"]->toArray();
+foreach($publicSummonerData["spellBook"]["bookPages"] as &$bookPages){
+	$bookPages = $bookPages->toArray();
+	foreach($bookPages["slotEntries"] as &$slot){
+		$slot = $slot->toArray();
+		$slot["runeSlot"] =   $slot["runeSlot"]->toArray();
+		$slot["runeSlot"]["runeType" ] =  $slot["runeSlot"]["runeType" ]->toArray();
+		$slot["rune"] = $slot["rune"]->toArray();
+		$slot["rune"]["runeType" ] =  $slot["rune"]["runeType"]->toArray();
+	}
+
+}
+$publicSummonerData["summonerDefaultSpells"] = $publicSummonerData["summonerDefaultSpells"]->toArray();
+
+
+print_r($publicSummonerData);
+
 $names = $client->getSummonerNames(array($summoner->getAcctId()));
 
 $games = $client->getRecentGames($summoner->getAcctId());
 
-// print_r($games);
-$content = $api->getRecentGames($games);
+$games = $games->toArray();
+foreach($games["gameStatistics"] as &$stat){
+	$stat  = $stat->toArray();
+//	print_r( $stat["fellowPlayers"]); 
+	foreach($stat["fellowPlayers"] as $key=>&$fp){
+		if(is_object($fp)){
+			$fp = $fp->toArray();
+			if(!isset($stat["fellowPlayers"][$fp["teamId"]]))
+				$stat["fellowPlayers"][$fp["teamId"]] = Array();
+			$stat["fellowPlayers"][$fp["teamId"]][] = $fp;
+			unset($stat["fellowPlayers"][$key]);
+		}
+	}
+	foreach($stat["statistics"] as $key=>&$st){
+	        if(is_object($st)){
+			$st = $st->toArray();
+			$stat["statistics"][$st["statType"]]  = $st["value"];
+			unset($stat["statistics"][$key]);
+		}			
+	}
+
+	$stat["fellowPlayers"][ $stat["teamId"] ][] = array(
+		"championId" 	=> $stat["championId"],
+		"teamId"	=> $stat["teamId"],
+		"summonerId"	=> $stat["summonerId"]
+	);
+}
+
+//$content = $api->getRecentGames($games);
 
 $stats = $client->getPlayerStatsByAccountId($summoner->getAcctId());
 
@@ -53,17 +98,28 @@ $leagues = $client->getAllLeaguesForPlayer($summoner->getSummonerId());
 // 20-10
 $masteries = $client->getMasteryBook($summoner->getSummonerId());
 
-/*
+?>
+<html>
 
-$profiler = new LOLProfiler('Username','Password','NA');
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
+<script>
+	window.lol = {};
 
-$profiler->searchSummoner('SummonerName');
-
-echo $profiler->name;
-
-*/
+	lol.games = <?php echo json_encode($games); ?>
 
 
+</script>
+</head>
+<body>
+</body>
+</html>
+
+<?php
+
+
+
+die();
 ?>
 
 <html>
