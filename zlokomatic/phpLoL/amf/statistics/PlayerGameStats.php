@@ -736,24 +736,24 @@ class PlayerGameStats extends LoLAMFBase {
         return $this->boostIpEarned;
     }
 	
-	public function getLevelUp($levelUp)
+	public function setLevelUp($levelUp)
 	{
 		$this->levelUp = $levelUp;
 	}
 	
-	public function getLeveledUp()
+	public function getLevelUp()
 	{
-		return $this->leveledUp;
+		return $this->levelUp;
 	}
 	
-	public function getLevelUp($leveledUp)
+	public function setLeveledUp($leveledUp)
 	{
 		$this->leveledUp = $leveledUp;
 	}
 	
 	public function getLeveledUp()
 	{
-		return $this->levelUp;
+		return $this->leveledUp;
 	}
 	
 	public function setVoterRating($voterRating)
