@@ -42,7 +42,7 @@ $names = $client->getSummonerNames(array($summoner->getAcctId()));
 $games = $client->getRecentGames($summoner->getAcctId());
 
 // print_r($games);
-print_r($api->getRecentGames($games));
+$content = $api->getRecentGames($games);
 
 $stats = $client->getPlayerStatsByAccountId($summoner->getAcctId());
 
