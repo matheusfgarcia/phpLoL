@@ -10,7 +10,6 @@ print_r($api->getRecentGames());
 
 
 die();
-
 date_default_timezone_set("America/Los_Angeles");
 
 spl_autoload_register(
@@ -71,5 +70,4 @@ echo $profiler->name;
 
 */
 
-print_r($stats);
 
