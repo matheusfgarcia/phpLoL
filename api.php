@@ -30,7 +30,7 @@ class API{
 		$value = $data->toArray();
 		print_r($value);
 		
-		foreach(iterator_to_array($value["gameStatistics"]) as $array){
+		foreach($value["gameStatistics"] as $array){
 		
 			$array = $array->toArray();
 			//print_r($array);
