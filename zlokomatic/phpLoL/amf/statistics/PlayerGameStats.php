@@ -56,6 +56,7 @@ class PlayerGameStats extends LoLAMFBase {
     protected $rating;
     protected $championId;
     protected $levelUp;
+    protected $leveledUp;
     protected $voterRating;
     protected $RatingAdjustmentFlags;
 
@@ -735,9 +736,19 @@ class PlayerGameStats extends LoLAMFBase {
         return $this->boostIpEarned;
     }
 	
-	public function setLeveledUp($levelUp)
+	public function getLevelUp($levelUp)
 	{
 		$this->levelUp = $levelUp;
+	}
+	
+	public function getLeveledUp()
+	{
+		return $this->leveledUp;
+	}
+	
+	public function getLevelUp($leveledUp)
+	{
+		$this->leveledUp = $leveledUp;
 	}
 	
 	public function getLeveledUp()
