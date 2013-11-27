@@ -129,8 +129,8 @@ $masteries = $client->getMasteryBook($summoner->getSummonerId());
 <script>
 	window.lol = {};
 
-	lol.recentGames = <?php echo json_encode($games); ?>
-	lol.publicData = <?php echo json_encode($publicSummonerData); ?>
+	lol.recentGames = <?php echo json_encode($games); ?>;
+	lol.publicData = <?php echo json_encode($publicSummonerData); ?>;
 
 
 </script>
