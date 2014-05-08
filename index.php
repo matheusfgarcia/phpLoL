@@ -29,7 +29,7 @@ $api = new api();
 
 //use zlokomatic\phpLoL\examples\LOLProfiler;
 
-$client = new LoLClient('mfgsk', 'mafiga182', 'BR' );
+$client = new LoLClient(USER, PASS, 'BR' );
 
 $summonerName = $_GET['user'];
 
